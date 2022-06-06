@@ -89,7 +89,11 @@ exports.logout = (req, res, next) => {
 };
 
 exports.signUpPage = (req, res, next) => {
-	res.render('sign_up',{layout: 'login_layout', signUpPage: true, errorMessage: message(req), oldInput: oldInput(req)});
+	User.findOne().then(user => {
+		return res.send(user);
+		
+	})
+	.catch(err => console.log(err));
 };
 
 exports.signUp = (req, res, next) => {
@@ -98,6 +102,7 @@ exports.signUp = (req, res, next) => {
 			email: req.body.email
 		}
 	}).then(user => {
+		return res.send(user);
 		if(!user) {
 			return bcrypt
 					.hash(req.body.password, 12)
@@ -110,7 +115,7 @@ exports.signUp = (req, res, next) => {
 						return user.save();
 					})
 					.then(result => {
-						return res.redirect('/login');
+						return res.send(result);
 					});
 		} else {
 			req.flash('error', 'E-Mail exists already, please pick a different one.');
