@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
-const User = require('../models/User');
+const User = require('../models/Customer');
 const Session = require('../models/Session');
 
 const message = (req) => {
@@ -102,7 +102,7 @@ exports.signUp = (req, res, next) => {
 			email: req.body.email
 		}
 	}).then(user => {
-		return res.send(user);
+		// return res.send(user);
 		if(!user) {
 			return bcrypt
 					.hash(req.body.password, 12)

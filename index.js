@@ -1,3 +1,4 @@
+// const express = require('express');
 const path = require('path');
 // load dependencies
 const env = require('dotenv');
@@ -19,29 +20,30 @@ const sequelize = require('./config/database');
 const errorController = require('./app/controllers/ErrorController');
 
 env.config();
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // required for csurf
-app.use(session({
-    resave: true,
-    saveUninitialized: true,
-    secret: process.env.SESSION_SECRET,
-  	cookie: { maxAge: 1209600000 }, // two weeks in milliseconds
-    store: new SequelizeStore({
-    	db: sequelize,
-    	table: "sessions",
-    }),
-}));
+// app.use(session({
+//     resave: true,
+//     saveUninitialized: true,
+//     secret: process.env.SESSION_SECRET,
+//   	cookie: { maxAge: 1209600000 }, // two weeks in milliseconds
+//     store: new SequelizeStore({
+//     	db: sequelize,
+//     	table: "sessions",
+//     }),
+// }));
 
-app.use(csrfProtection);
+// app.use(csrfProtection);
 app.use(flash());
 
-app.use((req, res, next) => {
-	res.locals.isAuthenticated = req.session.isLoggedIn;
-	res.locals.csrfToken = req.csrfToken();
-	next();
-});
+// app.use((req, res, next) => {
+// 	res.locals.isAuthenticated = req.session.isLoggedIn;
+// 	res.locals.csrfToken = req.csrfToken();
+// 	next();
+// });
 
 app.engine(
 	'hbs',
