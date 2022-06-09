@@ -5,6 +5,7 @@ const AuthController = require('../app/controllers/AuthController');
 const CustomerController = require('../app/controllers/CustomerController');
 const ShippingController = require('../app/controllers/ShippingController');
 const OrderController = require('../app/controllers/OrderController');
+const CommonController = require('../app/controllers/CommonController');
 
 router.get('/', HomeController.homePage);
 
@@ -18,5 +19,9 @@ router.post('/customer', CustomerController.insert);
 
 router.get('/shipping', ShippingController.fetch);
 router.post('/shipping', ShippingController.insert);
+
+router.get('/all/:type', CommonController.getCategories);
+router.get('/all/:type/:category', CommonController.getSubCategories);
+router.get('/all/:type/:category/:item', CommonController.getItems);
 
 module.exports = router;
