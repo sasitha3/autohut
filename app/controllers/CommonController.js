@@ -64,7 +64,6 @@ exports.getSubCategories = (req, res, next) => {
 		Boating.aggregate('brand', 'DISTINCT', { plain: false, where: {
 			category: category
 		  } }).then(boating => {
-			  console.log(boating);
 				boating.map((data)=> {
 				arr.push(data.DISTINCT);
 			});
@@ -73,7 +72,9 @@ exports.getSubCategories = (req, res, next) => {
 		.catch(err => res.send(err));		
 	} else if (type == 'vehicle'){
 
-		Vehicle.aggregate('brand', 'DISTINCT', { plain: false }).then(vehicle => {
+		Vehicle.aggregate('brand', 'DISTINCT', { plain: false, where: {
+			category: category
+		  } }).then(vehicle => {
 			vehicle.map((data)=> {
 				arr.push(data.DISTINCT);
 			});
@@ -82,7 +83,9 @@ exports.getSubCategories = (req, res, next) => {
 		.catch(err => res.send(err));	
 	} else if (type == 'tools'){
 
-		Tools.aggregate('brand', 'DISTINCT', { plain: false }).then(tools => {
+		Tools.aggregate('brand', 'DISTINCT', { plain: false, where: {
+			category: category
+		  } }).then(tools => {
 			tools.map((data)=> {
 				arr.push(data.DISTINCT);
 			});
@@ -91,7 +94,9 @@ exports.getSubCategories = (req, res, next) => {
 		.catch(err => res.send(err));	
 	} else if (type == 'motorCycleSP'){
 
-		MotorCycleSP.aggregate('brand', 'DISTINCT', { plain: false }).then(motorCycleSP => {
+		MotorCycleSP.aggregate('brand', 'DISTINCT', { plain: false, where: {
+			category: category
+		  } }).then(motorCycleSP => {
 			motorCycleSP.map((data)=> {
 				arr.push(data.DISTINCT);
 			});
@@ -100,7 +105,9 @@ exports.getSubCategories = (req, res, next) => {
 		.catch(err => res.send(err));	
 	} else if (type == 'carTruckSP'){
 
-		CarTruckSP.aggregate('brand', 'DISTINCT', { plain: false }).then(carTruckSP => {
+		CarTruckSP.aggregate('brand', 'DISTINCT', { plain: false, where: {
+			category: category
+		  } }).then(carTruckSP => {
 			carTruckSP.map((data)=> {
 				arr.push(data.DISTINCT);
 			});
