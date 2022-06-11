@@ -6,22 +6,23 @@ const CustomerController = require('../app/controllers/CustomerController');
 const ShippingController = require('../app/controllers/ShippingController');
 const OrderController = require('../app/controllers/OrderController');
 const CommonController = require('../app/controllers/CommonController');
+const ProcessController = require('../app/controllers/ProcessController');
 
 router.get('/', HomeController.homePage);
 
 router.get('/order', OrderController.fetch);
-router.post('/order', OrderController.insert);
-router.put('/orderState', AuthController.logout);
+router.put('/orderState', OrderController.updateState);
 
 router.get('/customer', CustomerController.fetch);
 router.get('/customer/:id', CustomerController.findById);
-router.post('/customer', CustomerController.insert);
 
 router.get('/shipping', ShippingController.fetch);
-router.post('/shipping', ShippingController.insert);
 
 router.get('/all/:type', CommonController.getCategories);
 router.get('/all/:type/:category', CommonController.getSubCategories);
 router.get('/all/:type/:category/:item', CommonController.getItems);
+
+router.post('/placeOrder', ProcessController.placeOrder);
+router.get('/getOrderDetails/:id', ProcessController.fetchOrder);
 
 module.exports = router;

@@ -1,20 +1,11 @@
 const Order = require('../models/Order');
 
-exports.insert = (req, res, next) => {
-	const order = new Order({
-		category: req.body.category,
-		subCategory: req.body.subCategory,
-		orderItem: req.body.orderItem,
-		orderQty: req.body.orderQty,
-		details: req.body.details,
-		userId: req.body.userId,
-		shippingId: req.body.shippingId
-
-	});
-	order.save().then((result)=>{
-		res.send(result);
+exports.insert = (order,fn) => {
+	
+	order.save().then(async (result)=>{
+		fn(result);
 	})
-	.catch(err => res.send(err));
+	.catch(err => fn(err));
 };
 
 exports.fetch = (req, res, next) => {
@@ -30,6 +21,21 @@ exports.findById = (req, res, next) => {
 			res.send(order);
 		else
 			res.send(null);
+	})
+	.catch(err => res.send(err));
+};
+
+exports.updateState = (req, res, next) => {
+	const orderId = req.body.orderId;
+	const state =  req.body.state
+	Order.update(
+		{ state: state },
+		{ where: { id: orderId } }
+	  ).then(order => {
+		if(order[0] == 1)
+			res.send({"res":"Updated successfully !"});
+		else
+			res.send({"res":"Failed to update !"});
 	})
 	.catch(err => res.send(err));
 };

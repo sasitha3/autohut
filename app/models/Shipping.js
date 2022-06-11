@@ -63,4 +63,7 @@ const Shipping = sequelize.define('shipping', {
 			],
 	});
 
+	Shipping.associate = models => {
+        Shipping.hasMany(models.Customer, { as: 'ta', foreginKey: 'id' });
+    }
 module.exports = Shipping;

@@ -3,7 +3,6 @@ const Vehicle = require('../models/Vehicle');
 const Tools = require('../models/Tools');
 const MotorCycleSP = require('../models/MotorCycleSP');
 const CarTruckSP = require('../models/CarTruckSP');
-const sequelize = require('../../config/database');
 
 exports.getCategories = (req, res, next) => {
 	const type = req.params.type;
@@ -18,6 +17,7 @@ exports.getCategories = (req, res, next) => {
 		})
 		.catch(err => res.send(err));	
 	} else if (type == 'vehicle'){
+
 		Vehicle.aggregate('category', 'DISTINCT', { plain: false }).then(vehicle => {
 			vehicle.map((data)=> {
 				arr.push(data.DISTINCT);
@@ -26,6 +26,7 @@ exports.getCategories = (req, res, next) => {
 		})
 		.catch(err => res.send(err));	
 	} else if (type == 'tools'){
+
 		Tools.aggregate('category', 'DISTINCT', { plain: false }).then(tools => {
 			tools.map((data)=> {
 				arr.push(data.DISTINCT);
@@ -34,6 +35,7 @@ exports.getCategories = (req, res, next) => {
 		})
 		.catch(err => res.send(err));	
 	} else if (type == 'motorCycleSP'){
+
 		MotorCycleSP.aggregate('category', 'DISTINCT', { plain: false }).then(motorCycleSP => {
 			motorCycleSP.map((data)=> {
 				arr.push(data.DISTINCT);
@@ -42,6 +44,7 @@ exports.getCategories = (req, res, next) => {
 		})
 		.catch(err => res.send(err));	
 	} else if (type == 'carTruckSP'){
+
 		CarTruckSP.aggregate('category', 'DISTINCT', { plain: false }).then(carTruckSP => {
 			carTruckSP.map((data)=> {
 				arr.push(data.DISTINCT);
@@ -50,6 +53,7 @@ exports.getCategories = (req, res, next) => {
 		})
 		.catch(err => res.send(err));	
 	} else {
+		
 		res.send({res: 'type not found'});
 	}
 	

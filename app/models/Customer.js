@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/database');
+const Shipping = require('../models/Shipping');
 
 const Customer = sequelize.define('customers', {
 		id: {
@@ -58,4 +59,7 @@ const Customer = sequelize.define('customers', {
 			],
 	});
 
+	Customer.associate = models => {
+        Customer.hasMany(models.Shipping, { as: 'tb', foreginKey: 'addedUser' });
+    }
 module.exports = Customer;
