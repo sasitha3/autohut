@@ -3,6 +3,7 @@ const path = require('path');
 // load dependencies
 const env = require('dotenv');
 const csrf = require('csurf');
+const cors = require('cors');
 const express = require('express');
 const flash = require('express-flash');
 const bodyParser = require('body-parser');
@@ -37,6 +38,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // }));
 
 // app.use(csrfProtection);
+app.use(cors());
+app.options('*',cors());
 app.use(flash());
 
 // app.use((req, res, next) => {
