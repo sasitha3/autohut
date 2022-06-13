@@ -41,13 +41,14 @@ const sequelize = require('../../config/database');
 	
 		});
 		ShippingController.insert(shipping, function(shippingResult){
-
+			const orderId = currentDate() + customerResult.id + shippingResult.id + currentTime() + 'AHM'
 			const order = new Order({
 				category: req.body.order.category,
 				subCategory: req.body.order.subCategory,
 				orderItem: req.body.order.orderItem,
 				orderQty: req.body.order.orderQty,
 				details: req.body.order.details,
+				orderId: orderId,
 				userId: customerResult.id,
 				shippingId: shippingResult.id
 		
@@ -65,7 +66,9 @@ const sequelize = require('../../config/database');
 };
 
 exports.fetchOrder = (req, res, next) => {
-	Order.findByPk(req.params.id).then(order => {
+	Order.findOne({
+		where: {orderId: req.params.id}
+	}).then(order => {
 		if(order != null)
 			Shipping.findByPk(order.shippingId).then(shipping => {
 				if(shipping != null)
@@ -76,27 +79,47 @@ exports.fetchOrder = (req, res, next) => {
 								'shipping':shipping,
 								'customer':customer
 							});
-						else
+						else {
 							res.send({
 								'order':order,
 								'shipping':shipping,
 								'customer':null
 							});
+						}
 					})
-				else
-				res.send({
-					'order':order,
-					'shipping':null,
-					'customer':null
-				});
+				else {
+					res.send({
+						'order':order,
+						'shipping':null,
+						'customer':null
+					});
+				}
 			})
 		.catch(err => res.send(err));
-		else
-		res.send({
-			'order':null,
-			'shipping':null,
-			'customer':null
-		});
+		else {
+			res.send({
+				'order':null,
+				'shipping':null,
+				'customer':null
+			});
+		}
 	})
 	.catch(err => res.send(err));
 };
+
+
+function currentDate(){
+	const today = new Date();
+	const dd = String(today.getDate()).padStart(2, '0');
+	const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+	const yyyy = today.getFullYear();
+	return dd + '-' + mm + '-' + yyyy;
+}
+
+function currentTime(){
+	const today = new Date();
+	const hh = String(today.getHours()).padStart(2, '0');
+	const MM = String(today.getMinutes()).padStart(2, '0');
+	const ss = String(today.getSeconds()).padStart(2, '0');
+	return hh + '-' + MM + '-' + ss;
+}
