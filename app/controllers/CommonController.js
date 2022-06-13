@@ -207,3 +207,41 @@ exports.getItems = (req, res, next) => {
 		res.send({res: 'type not found'});
 	}
 };
+
+exports.insertItems = (req, res, next) => {
+	const type = req.params.type;
+	if(type == 'boating'){
+		
+		Boating.bulkCreate(req.body.items).then(boating => {
+			res.send(boating);
+		})
+		.catch(err => res.send(err));	
+	} else if (type == 'vehicle'){
+
+		Vehicle.bulkCreate(req.body.items).then(vehicle => {
+			res.send(vehicle);
+		})
+		.catch(err => res.send(err));
+	} else if (type == 'tools'){
+
+		Tools.bulkCreate(req.body.items).then(tools => {
+			res.send(tools);
+		})
+		.catch(err => res.send(err));	
+	} else if (type == 'motorCycleSP'){
+
+		MotorCycleSP.bulkCreate(req.body.items).then(motorCycleSP => {
+			res.send(motorCycleSP);
+		})
+		.catch(err => res.send(err));	
+	} else if (type == 'carTruckSP'){
+
+		CarTruckSP.bulkCreate(req.body.items).then(carTruckSP => {
+			res.send(carTruckSP);
+		})
+		.catch(err => res.send(err));	
+	} else {
+		
+		res.send({res: 'type not found'});
+	}
+};

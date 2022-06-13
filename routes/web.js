@@ -21,6 +21,7 @@ router.get('/shipping', ShippingController.fetch);
 router.get('/all/:type', CommonController.getCategories);
 router.get('/all/:type/:category', CommonController.getSubCategories);
 router.get('/all/:type/:category/:item', CommonController.getItems);
+router.post('/all/:type', CommonController.insertItems);
 
 router.post('/placeOrder', ProcessController.placeOrder);
 router.get('/getOrderDetails/:id', ProcessController.fetchOrder);
